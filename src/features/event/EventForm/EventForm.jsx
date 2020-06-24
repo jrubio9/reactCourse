@@ -3,6 +3,8 @@ import { Segment, Form, Button } from 'semantic-ui-react';
 
 class EventForm extends Component {
 
+    /* STATE */
+
     state ={
         title: '',
         date: '',
@@ -11,9 +13,25 @@ class EventForm extends Component {
         hostedBy: ''
     }
 
-    handleFormSubmit = (evt) => {
+    /* LIFECYCLE EVENTS */
+
+    componentDidMount(){
+        if (this.props.selectedEvent != null){
+            this.setState({
+                ...this.props.selectedEvent /* Override current state */
+            })
+        }
+    }
+
+    /* CLASS EVENTS */
+
+    handleFormSubmit = evt => {
         evt.preventDefault();
-        this.props.createEvent(this.state); /* Passem l'state (que conté els camps del formulari) al constructor */
+        if (this.state.id){
+            this.props.updateEvent(this.state);
+        } else {
+            this.props.createEvent(this.state); /* Passem l'state (que conté els camps del formulari) al constructor */
+        }
     }
 
     /* Genèric Input Handler */
